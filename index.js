@@ -7,7 +7,7 @@ const client = new Client({
 });
 
 const API_KEY = 'google custom search api key here';
-const SEARCH_ENGINE_ID = 'google custom search engine ID here';
+const SEARCH_ENGINE_ID = 'custom search engine ID here';
 
 const keepAlive = require('./alive.js');
 keepAlive();
@@ -22,6 +22,11 @@ client.on('messageCreate', async (message) => {
 
   const query = message.content.slice(6).trim();
   if (!query) return message.reply('Please provide a search query!');
+
+  // Check if the channel is NSFW
+  if (!message.channel.nsfw) {
+    return message.reply('This command can only be used in NSFW channels.');
+  }
 
   try {
     const result = await google.customsearch('v1').cse.list({
