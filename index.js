@@ -23,11 +23,6 @@ client.on('messageCreate', async (message) => {
   const query = message.content.slice(6).trim();
   if (!query) return message.reply('Please provide a search query!');
 
-  // Check if the message was sent in an NSFW channel
-  if (message.channel.type !== 'GUILD_TEXT' || !message.channel.nsfw) {
-    return message.reply('Sorry, this command is only available in NSFW channels.');
-  }
-
   try {
     const result = await google.customsearch('v1').cse.list({
       auth: API_KEY,
